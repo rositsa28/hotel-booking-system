@@ -26,7 +26,7 @@ public class Room {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private boolean isAvailable;
+    private boolean available;
 
     @ManyToOne
     private Hotel hotel;

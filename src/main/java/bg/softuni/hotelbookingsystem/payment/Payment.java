@@ -1,10 +1,9 @@
-package bg.softuni.hotelbookingsystem.payment.model;
+package bg.softuni.hotelbookingsystem.payment;
 
 import bg.softuni.hotelbookingsystem.booking.model.Booking;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder
@@ -19,13 +18,13 @@ public class Payment {
     private UUID id;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    private UUID paymentId;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private paymentStatus status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "booking_id", nullable = false, unique = true)
     private Booking booking;
 

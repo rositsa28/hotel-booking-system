@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Hotel Booking System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background: url('/images/hotel-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding-top: 120px;
+        }
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            width: 400px;
+            margin: auto;
+            border-radius: 12px;
+        }
+        h2 {
+            margin-bottom: 25px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: none;
+        }
+        .alert-warning {
+            color: #ffc107;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .btn {
+            padding: 12px 30px;
+            background-color: #ff9900;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Create Account</h2>
+    <form th:action="@{/register}" method="post" th:object="${registerRequest}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <input type="text" th:field="*{username}" placeholder="Username" required><br>
+        <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
+        <input type="password" th:field="*{password}" placeholder="Password" required><br>
+        <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+        <input type="email" th:field="*{email}" placeholder="Email Address" required><br>
+        <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+        <button class="btn" type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>

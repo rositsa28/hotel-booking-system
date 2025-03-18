@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Hotel Booking System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background: url('/images/hotel-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding-top: 150px;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            width: 400px;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            background-color: #ff9900;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Hotel Booking System</h1>
+        <a class="btn" th:href="@{/login}">Login</a>
+        <a class="btn" th:href="@{/register}">Register</a>
+    </div>
+</body>
+</html>

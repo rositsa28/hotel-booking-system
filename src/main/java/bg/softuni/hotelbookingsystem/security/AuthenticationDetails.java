@@ -1,11 +1,11 @@
 package bg.softuni.hotelbookingsystem.security;
 
-import bg.softuni.hotelbookingsystem.user.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import bg.softuni.hotelbookingsystem.user.model.UserRole;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.util.Collection;
 import java.util.List;
@@ -13,13 +13,15 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AuthenticationDetails implements UserDetails {
     private UUID userId;
     private String username;
     private String password;
-    private Role role;
+    private UserRole role;
     private boolean isActive;
-    private String email;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

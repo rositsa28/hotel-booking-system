@@ -1,0 +1,63 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+.dashboard {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.dashboard h2 {
+    margin: 0 0 10px;
+}
+.dashboard .actions {
+    margin-top: 10px;
+}
+.dashboard .actions a {
+    margin: 0 10px;
+    text-decoration: none;
+    background-color: #ff4b2b;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+.search-form {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.recommended-hotels {
+    margin: 40px auto;
+    width: 90%;
+}
+.hotel-card {
+    display: inline-block;
+    width: 220px;
+    margin: 15px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.hotel-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.hotel-card .content {
+    padding: 10px;
+}
+.hotel-card h4 {
+    margin: 0;
+}
+.hotel-card .rating {
+    color: #ffa500;
+    font-weight: bold;
+}

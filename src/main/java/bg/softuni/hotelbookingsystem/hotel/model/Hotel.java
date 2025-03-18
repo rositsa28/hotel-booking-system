@@ -1,10 +1,11 @@
 package bg.softuni.hotelbookingsystem.hotel.model;
 
+import bg.softuni.hotelbookingsystem.review.model.Review;
 import bg.softuni.hotelbookingsystem.room.model.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -27,10 +28,13 @@ public class Hotel {
     @Column(nullable = false)
     private String address;
 
-    private double rating;
+    private double rating = 0.0;
 
-    @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Room> rooms;
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Room> rooms;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
 
 }

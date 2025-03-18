@@ -1,10 +1,12 @@
 package bg.softuni.hotelbookingsystem.user.model;
 
 import bg.softuni.hotelbookingsystem.booking.model.Booking;
+import bg.softuni.hotelbookingsystem.review.model.Review;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,9 +32,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
     private String firstName;
 
@@ -40,7 +41,13 @@ public class User {
 
     private String phone;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Booking> bookings;
+    private boolean active;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
 
 }

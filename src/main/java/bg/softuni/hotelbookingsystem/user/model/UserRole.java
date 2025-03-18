@@ -1,5 +1,5 @@
 package bg.softuni.hotelbookingsystem.user.model;
 
-public enum Role {
+public enum UserRole {
     ADMIN, USER
 }

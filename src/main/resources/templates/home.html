@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Dashboard</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="dashboard">
+    <h2>Welcome, <span th:text="${user.firstName} + ' ' + ${user.lastName}">User</span>!</h2>
+    <div class="actions">
+        <a th:if="${user.role.name() == 'USER'}" th:href="@{/bookings/user}">View Bookings</a>
+        <a th:if="${user.role.name() == 'USER'}" th:href="@{/users/{id}/profile(id=${user.id})}">Edit Profile</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="search-form">
+    <h3>Find a Room</h3>
+    <form th:action="@{/search}" th:method="post" th:object="${searchRequest}">
+        <label>City:</label>
+        <input type="text" th:field="*{city}" placeholder="City" required />
+        <label>Check-In:</label>
+        <input type="date" th:field="*{checkIn}" required />
+        <label>Check-Out:</label>
+        <input type="date" th:field="*{checkOut}" required />
+        <button type="submit">Search</button>
+    </form>
+</div>
+<div class="recommended-hotels">
+    <h3 style="text-align: center;">Recommended Hotels</h3>
+    <div th:each="hotel : ${topHotels}">
+        <div class="hotel-card">
+            <img th:src="@{/images/hotels/{id}.jpg(id=${hotel.id})}" alt="Hotel Image">
+            <div class="content">
+                <h4 th:text="${hotel.name}">Hotel Name</h4>
+                <p class="rating">⭐ <span th:text="${hotel.rating}">4.5</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

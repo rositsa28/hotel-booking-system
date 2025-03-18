@@ -1,6 +1,7 @@
-package bg.softuni.hotelbookingsystem.booking.model;
+package bg.softuni.hotelbookingsystem.review.model;
 
-import bg.softuni.hotelbookingsystem.room.model.Room;
+
+import bg.softuni.hotelbookingsystem.hotel.model.Hotel;
 import bg.softuni.hotelbookingsystem.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,22 +15,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Booking {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Column(nullable = false)
-    private LocalDate checkIn;
-
-    @Column(nullable = false)
-    private LocalDate checkOut;
 
     @ManyToOne
     private User user;
 
     @ManyToOne
-    private Room room;
+    private Hotel hotel;
 
-    private boolean paid;
+    @Column(length = 1000, nullable = false)
+    private String comment;
+
+    @Column(nullable = false)
+    private int rating;
+
+    @Column(nullable = false)
+    private LocalDate createdAt;
+
 }

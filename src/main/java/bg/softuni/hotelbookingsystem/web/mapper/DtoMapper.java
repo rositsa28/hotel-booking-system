@@ -1,7 +1,6 @@
 package bg.softuni.hotelbookingsystem.web.mapper;
 
 import bg.softuni.hotelbookingsystem.booking.model.Booking;
-import bg.softuni.hotelbookingsystem.hotel.model.Hotel;
 import bg.softuni.hotelbookingsystem.review.model.Review;
 import bg.softuni.hotelbookingsystem.room.model.Room;
 import bg.softuni.hotelbookingsystem.user.model.User;
@@ -14,21 +13,11 @@ import java.util.UUID;
 @UtilityClass
 public class DtoMapper {
 
-    public static Hotel mapHotelRequestToHotel(HotelRequest hotelRequest) {
-        return Hotel.builder()
-                .name(hotelRequest.getName())
-                .city(hotelRequest.getCity())
-                .address(hotelRequest.getAddress())
-                .rating(hotelRequest.getRating())
-                .build();
-    }
-
     public static Room mapRoomRequestToRoom(RoomRequest roomRequest) {
         return Room.builder()
                 .roomType(roomRequest.getRoomType())
                 .price(roomRequest.getPrice())
                 .available(true)
-                .hotel(Hotel.builder().id(roomRequest.getHotelId()).build())
                 .build();
     }
 
@@ -47,7 +36,6 @@ public class DtoMapper {
                 .rating(dto.getRating())
                 .comment(dto.getComment())
                 .createdAt(LocalDate.now())
-                .hotel(Hotel.builder().id(hotelId).build())
                 .user(User.builder().id(userId).build())
                 .build();
     }
@@ -60,20 +48,11 @@ public class DtoMapper {
                 .build();
     }
 
-    public static HotelRequest mapHotelToHotelRequest(Hotel hotel) {
-        return HotelRequest.builder()
-                .name(hotel.getName())
-                .city(hotel.getCity())
-                .address(hotel.getAddress())
-                .rating(hotel.getRating())
-                .build();
-    }
 
     public static RoomRequest mapRoomToRoomRequest(Room room) {
         return RoomRequest.builder()
                 .roomType(room.getRoomType())
                 .price(room.getPrice())
-                .hotelId(room.getHotel().getId())
                 .build();
     }
 }

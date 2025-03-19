@@ -1,7 +1,6 @@
 package bg.softuni.hotelbookingsystem.review.service;
 
-import bg.softuni.hotelbookingsystem.hotel.model.Hotel;
-import bg.softuni.hotelbookingsystem.hotel.service.HotelService;
+
 import bg.softuni.hotelbookingsystem.review.model.Review;
 import bg.softuni.hotelbookingsystem.review.repository.ReviewRepository;
 import bg.softuni.hotelbookingsystem.web.dto.ReviewRequest;
@@ -18,17 +17,14 @@ public class ReviewService {
 
 
     private final ReviewRepository reviewRepository;
-    private final HotelService hotelService;
+
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, HotelService hotelService) {
+    public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
-        this.hotelService = hotelService;
+
     }
 
-    public List<Review> getByHotel(UUID hotelId) {
-        return reviewRepository.findByHotelIdOrderByCreatedAtDesc(hotelId);
-    }
 
     public List<Review> getByUser(UUID userId) {
         return reviewRepository.findByUserId(userId);
@@ -38,11 +34,10 @@ public class ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
 
-        UUID hotelId = review.getHotel().getId();
 
         reviewRepository.deleteById(id);
 
-        updateHotelAverageRating(hotelId);
+
     }
 
 
@@ -55,20 +50,10 @@ public class ReviewService {
         review.setCreatedAt(LocalDate.now());
         reviewRepository.save(review);
 
-        updateHotelAverageRating(reviewRequest.getHotelId());
     }
 
-    public void updateHotelAverageRating(UUID hotelId) {
-        List<Review> reviews = reviewRepository.findByHotelId(hotelId);
 
-        double average = reviews.stream()
-                .mapToInt(Review::getRating)
-                .average()
-                .orElse(0.0);
-
-        Hotel hotel = hotelService.getById(hotelId);
-        hotel.setRating(average);
-        hotelService.save(hotel);
+    public List<Review> getAll() {
+        return reviewRepository.findAll();
     }
-
 }

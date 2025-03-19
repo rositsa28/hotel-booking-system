@@ -10,8 +10,8 @@ import java.util.UUID;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
-    List<Review> findByHotelIdOrderByCreatedAtDesc(UUID hotelId);
+
+
     List<Review> findByUserId(UUID userId);
 
-    List<Review> findByHotelId(UUID hotelId);
 }

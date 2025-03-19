@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="form-container">
+    <h2>Edit Your Profile</h2>
+
+    <form th:action="@{'/users/' + ${user.id} + '/profile'}"
+          th:object="${userEditRequest}" th:method="PUT">
+        <input type="hidden" name="_method" value="put"/>
+
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" th:field="*{firstName}" id="firstName" placeholder="First Name"/>
+            <p class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last Name"/>
+            <p class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" th:field="*{phone}" id="phone" placeholder="Phone Number"/>
+            <p class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+        </div>
+
+        <button type="submit" class="submit-button">Save Changes</button>
+    </form>
+</div>
+</body>
+</html>

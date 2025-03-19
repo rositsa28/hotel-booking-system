@@ -1,6 +1,5 @@
 package bg.softuni.hotelbookingsystem.room.model;
 
-import bg.softuni.hotelbookingsystem.hotel.model.Hotel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +27,8 @@ public class Room {
     @Column(nullable = false)
     private boolean available;
 
-    @ManyToOne
-    private Hotel hotel;
+    private String description;
+
+    private String imageUrl;
 
 }

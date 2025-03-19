@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -46,30 +47,27 @@ public class BookingService {
 
     @Transactional
     public Booking createBooking(BookingRequest bookingRequest) {
-        Room room = roomService.getById(bookingRequest.getRoomId());
+        Room room = roomService.findById(bookingRequest.getRoomId());
+
         if (!room.isAvailable()) {
             throw new RuntimeException("Room is already booked/unavailable.");
         }
 
-        Booking booking = new Booking();
-        booking.setCheckIn(bookingRequest.getCheckIn());
-        booking.setCheckOut(bookingRequest.getCheckOut());
-        booking.setRoom(room);
         User user = userService.findById(bookingRequest.getUserId());
-        booking.setUser(user);
-        booking.setPaid(false);
+
+        Booking booking = Booking.builder()
+                .checkIn(bookingRequest.getCheckIn())
+                .checkOut(bookingRequest.getCheckOut())
+                .room(room)
+                .user(user)
+                .paid(false)
+                .build();
 
         room.setAvailable(false);
         roomService.save(room);
 
         Booking savedBooking = bookingRepository.save(booking);
-
-        UUID paymentId = paymentClientService.createPayment(savedBooking.getId(), room.getPrice());
-        if (paymentId == null) {
-            throw new RuntimeException("Payment failed. Booking cannot be completed.");
-        }
-
-        emailService.sendBookingConfirmation(user.getEmail(), "Booking confirmed for: " + savedBooking.getCheckIn());
+        emailService.sendBookingConfirmation(user.getEmail(), "Your booking is confirmed!");
 
         return savedBooking;
     }
@@ -110,5 +108,6 @@ public class BookingService {
             );
         }
     }
+
 }
 

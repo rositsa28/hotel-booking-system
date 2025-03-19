@@ -1,6 +1,7 @@
 package bg.softuni.hotelbookingsystem.room.repository;
 
 import bg.softuni.hotelbookingsystem.room.model.Room;
+import bg.softuni.hotelbookingsystem.room.model.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,19 +13,28 @@ import java.util.UUID;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, UUID> {
+
     @Query("""
     SELECT r FROM Room r
-    WHERE r.hotel.city = :city
-      AND r.available = true
+    WHERE r.available = true
+      AND r.roomType = :roomType
       AND r.id NOT IN (
           SELECT b.room.id FROM Booking b
           WHERE (:checkIn < b.checkOut AND :checkOut > b.checkIn)
       )
 """)
-    List<Room> findAvailableRoomsByCityAndDates(@Param("city") String city,
-                                                @Param("checkIn") LocalDate checkIn,
-                                                @Param("checkOut") LocalDate checkOut);
+    List<Room> findAvailableRoomsByDateAndType(@Param("checkIn") LocalDate checkIn,
+                                               @Param("checkOut") LocalDate checkOut,
+                                               @Param("roomType") RoomType roomType);
 
-
-    List<Room> findByHotelId(UUID hotelId);
+    @Query("""
+    SELECT r FROM Room r
+    WHERE r.available = true
+      AND r.id NOT IN (
+          SELECT b.room.id FROM Booking b
+          WHERE (:checkIn < b.checkOut AND :checkOut > b.checkIn)
+      )
+""")
+    List<Room> findAvailableRoomsByDates(@Param("checkIn") LocalDate checkIn,
+                                         @Param("checkOut") LocalDate checkOut);
 }

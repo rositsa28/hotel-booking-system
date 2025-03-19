@@ -36,8 +36,8 @@ public class ReviewController {
     }
 
     @GetMapping("/hotel/{hotelId}")
-    public ModelAndView getReviewsForHotel(@PathVariable UUID hotelId) {
-        List<Review> reviews = reviewService.getByHotel(hotelId);
+    public ModelAndView getReviewsForHotel() {
+        List<Review> reviews = reviewService.getAll();
         return new ModelAndView("hotel-reviews").addObject("reviews", reviews);
     }
 

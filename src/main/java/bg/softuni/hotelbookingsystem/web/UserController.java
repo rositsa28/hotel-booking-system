@@ -40,7 +40,7 @@ public class UserController {
     @GetMapping("/{id}/profile")
     public ModelAndView getProfileMenu(@PathVariable UUID id) {
         User user = userService.getById(id);
-        ModelAndView modelAndView = new ModelAndView("profile-menu");
+        ModelAndView modelAndView = new ModelAndView("profile");
         modelAndView.addObject("user", user);
         modelAndView.addObject("userEditRequest", DtoMapper.mapUserToUserEditRequest(user));
         return modelAndView;

@@ -1,11 +1,11 @@
 package bg.softuni.hotelbookingsystem.web.dto;
 
-
+import bg.softuni.hotelbookingsystem.room.model.RoomType;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,14 +16,15 @@ import java.time.LocalDate;
 @Builder
 public class SearchRequest {
 
-    @NotBlank(message = "City is required")
-    private String city;
-
-    @NotNull(message = "Check-in date is required")
-    @FutureOrPresent(message = "Check-in date must be today or in the future")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull
+    @FutureOrPresent
     private LocalDate checkIn;
 
-    @NotNull(message = "Check-out date is required")
-    @Future(message = "Check-out date must be in the future")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull
+    @Future
     private LocalDate checkOut;
+
+    private RoomType roomType;
 }

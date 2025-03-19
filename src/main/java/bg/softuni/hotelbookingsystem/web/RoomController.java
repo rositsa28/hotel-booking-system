@@ -28,7 +28,7 @@ public class RoomController {
 
     @GetMapping("/hotel/{hotelId}")
     public ModelAndView listRoomsByHotel(@PathVariable UUID hotelId) {
-        List<Room> rooms = roomService.findByHotel(hotelId);
+        List<Room> rooms = roomService.getAllRooms();
         ModelAndView modelAndView = new ModelAndView("rooms");
         modelAndView.addObject("rooms", rooms);
         return modelAndView;

@@ -1,42 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home - Dashboard</title>
     <meta charset="UTF-8">
+    <title>Our Hotel - Home</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="dashboard">
-    <h2>Welcome, <span th:text="${user.firstName} + ' ' + ${user.lastName}">User</span>!</h2>
-    <div class="actions">
-        <a th:if="${user.role.name() == 'USER'}" th:href="@{/bookings/user}">View Bookings</a>
-        <a th:if="${user.role.name() == 'USER'}" th:href="@{/users/{id}/profile(id=${user.id})}">Edit Profile</a>
+<header class="header-bar">
+    <div class="left">
+        <h2 th:text="${#strings.isEmpty(user.firstName) && #strings.isEmpty(user.lastName)
+               ? 'Welcome, ' + user.username
+               : 'Welcome, ' + user.firstName + ' ' + user.lastName}">
+        </h2>
+    </div>
+    <div class="right">
+        <a th:href="@{/bookings/user}" class="btn-header">My Bookings</a>
+        <a th:href="@{/users/{id}/profile(id=${user.id})}">Edit Profile</a>
+        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin Panel</a>
         <a th:href="@{/logout}">Logout</a>
     </div>
-</div>
-<div class="search-form">
-    <h3>Find a Room</h3>
+</header>
+
+<section class="search-section">
+    <h3>Search Available Rooms</h3>
     <form th:action="@{/search}" th:method="post" th:object="${searchRequest}">
-        <label>City:</label>
-        <input type="text" th:field="*{city}" placeholder="City" required />
         <label>Check-In:</label>
-        <input type="date" th:field="*{checkIn}" required />
+        <input type="date" th:field="*{checkIn}" />
         <label>Check-Out:</label>
-        <input type="date" th:field="*{checkOut}" required />
+        <input type="date" th:field="*{checkOut}" />
+        <label>Room Type:</label>
+        <select th:field="*{roomType}">
+            <option value="">All</option>
+            <option value="SINGLE">Single</option>
+            <option value="DOUBLE">Double</option>
+            <option value="SUITE">Suite</option>
+            <option value="DELUXE">Deluxe</option>
+        </select>
         <button type="submit">Search</button>
     </form>
-</div>
-<div class="recommended-hotels">
-    <h3 style="text-align: center;">Recommended Hotels</h3>
-    <div th:each="hotel : ${topHotels}">
-        <div class="hotel-card">
-            <img th:src="@{/images/hotels/{id}.jpg(id=${hotel.id})}" alt="Hotel Image">
-            <div class="content">
-                <h4 th:text="${hotel.name}">Hotel Name</h4>
-                <p class="rating">⭐ <span th:text="${hotel.rating}">4.5</span></p>
-            </div>
+</section>
+
+<section class="room-types">
+    <h3>Our Room Types</h3>
+    <div class="room-types-grid">
+        <div class="room-type-card">
+            <img src="/images/rooms/single.jpg" alt="Single Room">
+            <h4>Single Room</h4>
+        </div>
+        <div class="room-type-card">
+            <img src="/images/rooms/double.jpg" alt="Double Room">
+            <h4>Double Room</h4>
+        </div>
+        <div class="room-type-card">
+            <img src="/images/rooms/suite.jpg" alt="Suite Room">
+            <h4>Suite Room</h4>
+        </div>
+        <div class="room-type-card">
+            <img src="/images/rooms/deluxe.jpg" alt="Deluxe Room">
+            <h4>Deluxe Room</h4>
         </div>
     </div>
-</div>
+</section>
+
+<footer>
+    <div class="footer-links">
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</footer>
 </body>
 </html>

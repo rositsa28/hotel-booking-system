@@ -22,21 +22,20 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-
     @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/hotel/{hotelId}/form")
-    public ModelAndView showReviewForm(@PathVariable UUID hotelId) {
-        ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.setHotelId(hotelId);
-        return new ModelAndView("review-form").addObject("reviewRequest", reviewRequest);
+    @GetMapping("/form")
+    public ModelAndView showReviewForm() {
+
+        return new ModelAndView("review-form").addObject("reviewRequest", new ReviewRequest());
     }
 
-    @GetMapping("/hotel/{hotelId}")
-    public ModelAndView getReviewsForHotel() {
+    @GetMapping
+    public ModelAndView getReviews() {
+
         List<Review> reviews = reviewService.getAll();
         return new ModelAndView("hotel-reviews").addObject("reviews", reviews);
     }
@@ -48,12 +47,9 @@ public class ReviewController {
         if (result.hasErrors()) {
             return new ModelAndView("review-form").addObject("reviewRequest", reviewRequest);
         }
-
         UUID userId = authenticationDetails.getUserId();
-
-
         reviewService.submitReview(reviewRequest, userId);
 
-        return new ModelAndView("redirect:/hotels/" + reviewRequest.getHotelId());
+        return new ModelAndView("redirect:/reviews");
     }
 }

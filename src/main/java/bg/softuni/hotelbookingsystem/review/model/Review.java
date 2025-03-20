@@ -4,7 +4,7 @@ import bg.softuni.hotelbookingsystem.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -21,7 +21,6 @@ public class Review {
     @ManyToOne
     private User user;
 
-
     @Column(length = 1000, nullable = false)
     private String comment;
 
@@ -29,6 +28,6 @@ public class Review {
     private int rating;
 
     @Column(nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
 }

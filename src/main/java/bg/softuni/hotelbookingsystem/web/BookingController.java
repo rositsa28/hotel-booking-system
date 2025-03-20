@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.UUID;
-
 @Controller
 @RequestMapping("/bookings")
 public class BookingController {
@@ -29,11 +28,10 @@ public class BookingController {
     @Autowired
     public BookingController(BookingService bookingService,
                              UserService userService,
-                             PaymentRepository paymentRepository, PaymentRepository paymentRepository1) {
+                             PaymentRepository paymentRepository) {
         this.bookingService = bookingService;
         this.userService = userService;
-        this.paymentRepository = paymentRepository1;
-
+        this.paymentRepository = paymentRepository;
     }
 
     @GetMapping("/user")
@@ -58,11 +56,7 @@ public class BookingController {
         }
 
         UUID userId = authenticationDetails.getUserId();
-
-
-
         bookingService.createBooking(bookingRequest);
-
         return new ModelAndView("redirect:/bookings/user");
     }
 

@@ -83,8 +83,5 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with this username does not exist"));
     }
 
-    public User findById(UUID userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
+
 }

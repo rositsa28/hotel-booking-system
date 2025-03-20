@@ -5,8 +5,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,5 +18,4 @@ public class ReviewRequest {
     @Max(value = 5, message = "Rating must not exceed 5")
     private int rating;
 
-    private UUID hotelId;
 }

@@ -21,12 +21,16 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
+    @Column(nullable = false, unique = true)
+    private String roomNumber;
+
     @Column(nullable = false)
     private BigDecimal price;
 
     @Column(nullable = false)
     private boolean available;
 
+    @Column(length = 1000)
     private String description;
 
     private String imageUrl;

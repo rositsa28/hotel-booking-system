@@ -7,7 +7,7 @@ import bg.softuni.hotelbookingsystem.user.model.User;
 import bg.softuni.hotelbookingsystem.web.dto.*;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @UtilityClass
@@ -18,7 +18,8 @@ public class DtoMapper {
                 .roomType(roomRequest.getRoomType())
                 .price(roomRequest.getPrice())
                 .available(true)
-                .build();
+                .roomNumber(roomRequest.getRoomNumber())
+                .roomNumber(roomRequest.getRoomNumber()).build();
     }
 
     public static Booking mapBookingRequestToBooking(BookingRequest bookingRequest, UUID userId) {
@@ -31,11 +32,11 @@ public class DtoMapper {
                 .build();
     }
 
-    public static Review mapReviewRequestToReview(ReviewRequest dto, UUID hotelId, UUID userId) {
+    public static Review mapReviewRequestToReview(ReviewRequest dto, UUID userId) {
         return Review.builder()
                 .rating(dto.getRating())
                 .comment(dto.getComment())
-                .createdAt(LocalDate.now())
+                .createdAt(LocalDateTime.now())
                 .user(User.builder().id(userId).build())
                 .build();
     }
@@ -52,7 +53,20 @@ public class DtoMapper {
     public static RoomRequest mapRoomToRoomRequest(Room room) {
         return RoomRequest.builder()
                 .roomType(room.getRoomType())
+                .roomNumber(room.getRoomNumber())
                 .price(room.getPrice())
+                .build();
+    }
+
+    public static RoomResponse mapRoomToRoomResponse(Room room) {
+        return RoomResponse.builder()
+                .id(room.getId())
+                .roomNumber(room.getRoomNumber())
+                .roomType(room.getRoomType())
+                .price(room.getPrice())
+                .available(room.isAvailable())
+                .description(room.getDescription())
+                .imageUrl(room.getImageUrl())
                 .build();
     }
 }

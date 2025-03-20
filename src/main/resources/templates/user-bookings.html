@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="bookings-container">
+    <div class="back-button-container">
+        <a th:href="@{/home}" class="btn back-btn">← Back to Home</a>
+    </div>
+    <h2>My Upcoming Bookings</h2>
+    <table class="bookings-table">
+        <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>Room Type</th>
+            <th>Paid</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${currentBookings}">
+            <td th:text="${booking.id}">ID</td>
+            <td th:text="${booking.checkIn}">Check-In</td>
+            <td th:text="${booking.checkOut}">Check-Out</td>
+            <td th:text="${booking.room.roomType}">Room Type</td>
+            <td th:text="${booking.paid ? 'Yes' : 'No'}">Paid</td>
+            <td>
+                <form th:action="@{/bookings/{id}/cancel(id=${booking.id})}" method="post">
+                    <button type="submit" class="cancel-btn">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(currentBookings)}">
+            <td colspan="6">You have no upcoming bookings.</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Past Bookings</h2>
+    <table class="bookings-table">
+        <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>Room Type</th>
+            <th>Paid</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${pastBookings}">
+            <td th:text="${booking.id}">ID</td>
+            <td th:text="${booking.checkIn}">Check-In</td>
+            <td th:text="${booking.checkOut}">Check-Out</td>
+            <td th:text="${booking.room.roomType}">Room Type</td>
+            <td th:text="${booking.paid ? 'Yes' : 'No'}">Paid</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(pastBookings)}">
+            <td colspan="5">You have no past bookings.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

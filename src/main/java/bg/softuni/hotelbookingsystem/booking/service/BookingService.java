@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -53,7 +52,7 @@ public class BookingService {
             throw new RuntimeException("Room is already booked/unavailable.");
         }
 
-        User user = userService.findById(bookingRequest.getUserId());
+        User user = userService.getById(bookingRequest.getUserId());
 
         Booking booking = Booking.builder()
                 .checkIn(bookingRequest.getCheckIn())

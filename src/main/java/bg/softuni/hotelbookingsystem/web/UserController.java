@@ -54,7 +54,7 @@ public class UserController {
     ) {
         if (bindingResult.hasErrors()) {
             User user = userService.getById(id);
-            ModelAndView modelAndView = new ModelAndView("profile-menu");
+            ModelAndView modelAndView = new ModelAndView("profile");
             modelAndView.addObject("user", user);
             modelAndView.addObject("userEditRequest", userEditRequest);
             return modelAndView;

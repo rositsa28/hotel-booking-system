@@ -10,8 +10,7 @@ import java.util.UUID;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
-
-
     List<Review> findByUserId(UUID userId);
 
+    List<Review> findTop5ByOrderByCreatedAtDesc();
 }

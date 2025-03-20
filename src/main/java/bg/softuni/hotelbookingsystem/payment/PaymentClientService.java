@@ -6,8 +6,6 @@ import bg.softuni.hotelbookingsystem.web.dto.PaymentResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,7 +26,7 @@ public class PaymentClientService {
     }
 
     @Transactional
-    public UUID createPayment(UUID bookingId, BigDecimal amount) {
+    public PaymentResponse createPayment(UUID bookingId, BigDecimal amount) {
         PaymentRequest request = new PaymentRequest(bookingId, amount);
         PaymentResponse response = paymentFeignClient.createPayment(request);
 
@@ -43,35 +41,41 @@ public class PaymentClientService {
                 .build();
 
         paymentRepository.save(payment);
-        return response.getPaymentId();
+        return response;
     }
 
-    public PaymentStatus getPaymentStatus(UUID paymentId) {
+    public PaymentResponse getPaymentStatusResponse(UUID paymentId) {
         PaymentResponse response = paymentFeignClient.getPaymentStatus(paymentId);
-        return response != null ? response.getPaymentStatus() : PaymentStatus.FAILED;
+        if (response == null) {
+            return PaymentResponse.builder()
+                    .paymentId(paymentId)
+                    .paymentStatus(PaymentStatus.FAILED)
+                    .build();
+        }
+        return response;
     }
 
-    public void updateStatus(UUID paymentId) {
+    @Transactional
+    public PaymentResponse updatePaymentStatus(UUID paymentId) {
+        PaymentResponse statusResponse = getPaymentStatusResponse(paymentId);
+
         Payment payment = paymentRepository.findByPaymentId(paymentId)
-                .orElseThrow(() -> new RuntimeException("Reference not found"));
-        payment.setPaymentStatus(getPaymentStatus(paymentId));
+                .orElseThrow(() -> new RuntimeException("Payment reference not found"));
+
+        payment.setPaymentStatus(statusResponse.getPaymentStatus());
         paymentRepository.save(payment);
+
+        return statusResponse;
     }
 
     public List<Payment> findAllByUserId(UUID userId) {
         return paymentRepository.findAllByBooking_User_Id(userId);
     }
 
-    @Async
-    @Scheduled(cron = "0 */30 * * * *")
-    public void syncPaymentStatuses() {
-        List<Payment> payments = paymentRepository.findAll();
-        for (Payment payment : payments) {
-            updateStatus(payment.getPaymentId());
-        }
+
+    public List<Payment> findAllPayments() {
+       return paymentRepository.findAll();
     }
 }
-
-
 
 

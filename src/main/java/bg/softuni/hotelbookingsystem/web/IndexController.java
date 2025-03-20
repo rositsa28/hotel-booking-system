@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,15 +71,12 @@ public class IndexController {
     public ModelAndView registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("register");
+            return new ModelAndView("register")
+                    .addObject("registerRequest", registerRequest);
         }
-
         userService.register(registerRequest);
-
         return new ModelAndView("redirect:/login");
     }
-
-
 
     @GetMapping("/home")
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
@@ -90,5 +88,10 @@ public class IndexController {
         modelAndView.addObject("searchRequest", new SearchRequest());
         modelAndView.addObject("roomTypes", List.of(RoomType.values()));
         return modelAndView;
+    }
+
+    @ModelAttribute("searchRequest")
+    public SearchRequest searchRequest() {
+        return new SearchRequest();
     }
 }

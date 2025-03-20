@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Payment Status</h1>
+    <p><strong>Payment ID:</strong> <span th:text="${payment.paymentId}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${payment.paymentStatus}"></span></p>
+    <p><strong>Created At:</strong> <span th:text="${#temporals.format(payment.createdAt, 'dd MMM yyyy HH:mm')}"></span></p>
+    <div class="back-button-container">
+        <a th:href="@{/home}" class="btn back-btn">← Back to Home</a>
+    </div>
+</div>
+</body>
+</html>

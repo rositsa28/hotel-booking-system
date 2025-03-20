@@ -2,32 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Our Hotel - Home</title>
+    <title>Home - Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <header class="header-bar">
     <div class="left">
         <h2 th:text="${#strings.isEmpty(user.firstName) && #strings.isEmpty(user.lastName)
-               ? 'Welcome, ' + user.username
-               : 'Welcome, ' + user.firstName + ' ' + user.lastName}">
-        </h2>
+                    ? 'Welcome, ' + user.username
+                    : 'Welcome, ' + user.firstName + ' ' + user.lastName}">Welcome</h2>
     </div>
     <div class="right">
-        <a th:href="@{/bookings/user}" class="btn-header">My Bookings</a>
-        <a th:href="@{/users/{id}/profile(id=${user.id})}">Edit Profile</a>
-        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin Panel</a>
-        <a th:href="@{/logout}">Logout</a>
+
+        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin/rooms}" class="btn">Admin Panel</a>
+        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/logout}" class="btn">Logout</a>
+        <a th:if="${user.role.name() != 'ADMIN'}" th:href="@{/bookings/user}" class="btn">My Bookings</a>
+        <a th:if="${user.role.name() != 'ADMIN'}" th:href="@{/users/{id}/profile(id=${user.id})}" class="btn">Edit Profile</a>
+        <a th:if="${user.role.name() != 'ADMIN'}" th:href="@{/logout}" class="btn">Logout</a>
     </div>
 </header>
 
 <section class="search-section">
     <h3>Search Available Rooms</h3>
-    <form th:action="@{/search}" th:method="post" th:object="${searchRequest}">
+    <form th:action="@{/search}" th:object="${searchRequest}" method="post">
         <label>Check-In:</label>
-        <input type="date" th:field="*{checkIn}" />
+        <input type="date" th:field="*{checkIn}" required>
         <label>Check-Out:</label>
-        <input type="date" th:field="*{checkOut}" />
+        <input type="date" th:field="*{checkOut}" required>
         <label>Room Type:</label>
         <select th:field="*{roomType}">
             <option value="">All</option>
@@ -36,36 +37,14 @@
             <option value="SUITE">Suite</option>
             <option value="DELUXE">Deluxe</option>
         </select>
-        <button type="submit">Search</button>
+        <button type="submit" class="btn">Search</button>
     </form>
-</section>
-
-<section class="room-types">
-    <h3>Our Room Types</h3>
-    <div class="room-types-grid">
-        <div class="room-type-card">
-            <img src="/images/rooms/single.jpg" alt="Single Room">
-            <h4>Single Room</h4>
-        </div>
-        <div class="room-type-card">
-            <img src="/images/rooms/double.jpg" alt="Double Room">
-            <h4>Double Room</h4>
-        </div>
-        <div class="room-type-card">
-            <img src="/images/rooms/suite.jpg" alt="Suite Room">
-            <h4>Suite Room</h4>
-        </div>
-        <div class="room-type-card">
-            <img src="/images/rooms/deluxe.jpg" alt="Deluxe Room">
-            <h4>Deluxe Room</h4>
-        </div>
-    </div>
 </section>
 
 <footer>
     <div class="footer-links">
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/contact}">Contact</a>
     </div>
 </footer>
 </body>

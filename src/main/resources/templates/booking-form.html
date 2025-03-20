@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book a Room</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="form-container">
+    <h2>Book a Room</h2>
+    <form th:action="@{/bookings/create}" method="post" th:object="${bookingRequest}">
+        <div class="form-group">
+            <label for="checkIn">Check-In:</label>
+            <input type="date" th:field="*{checkIn}" id="checkIn" required>
+        </div>
+        <div class="form-group">
+            <label for="checkOut">Check-Out:</label>
+            <input type="date" th:field="*{checkOut}" id="checkOut" required>
+        </div>
+        <div class="form-group">
+            <label for="roomId">Room:</label>
+            <input type="text" th:field="*{roomId}" id="roomId" placeholder="Room ID" required>
+        </div>
+        <button type="submit" class="btn">Book Now</button>
+    </form>
+</div>
+</body>
+</html>

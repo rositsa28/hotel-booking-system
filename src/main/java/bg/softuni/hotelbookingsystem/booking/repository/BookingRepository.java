@@ -15,6 +15,4 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     List<Booking> findByPaidFalse();
 
-
-
 }

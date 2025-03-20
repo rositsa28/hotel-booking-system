@@ -26,7 +26,6 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
     List<Room> findAvailableRoomsByDateAndType(@Param("checkIn") LocalDate checkIn,
                                                @Param("checkOut") LocalDate checkOut,
                                                @Param("roomType") RoomType roomType);
-
     @Query("""
     SELECT r FROM Room r
     WHERE r.available = true
@@ -37,4 +36,6 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
 """)
     List<Room> findAvailableRoomsByDates(@Param("checkIn") LocalDate checkIn,
                                          @Param("checkOut") LocalDate checkOut);
+
+    List<Room> findByRoomType(RoomType roomType);
 }
